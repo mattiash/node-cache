@@ -1,13 +1,11 @@
-const empty: unique symbol = Symbol('empty')
-
 export function cache<T>(fn: () => Promise<T>, timeoutMs: number) {
-    let cached: T | typeof empty = empty
-    let cached_updated = 0
+    let p_updated = 0
+    let p: Promise<T> | undefined
     return async () => {
-        if (cached === empty || Date.now() - cached_updated > timeoutMs) {
-            cached_updated = Date.now()
-            cached = await fn()
+        if (!p || Date.now() - p_updated > timeoutMs) {
+            p_updated = Date.now()
+            p = fn()
         }
-        return cached
+        return await p
     }
 }

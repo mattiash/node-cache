@@ -1,19 +1,9 @@
+import 'source-map-support/register'
 import { test } from 'purple-tape'
 import { promisify } from 'util'
 import { cache } from '../index'
 
 const sleep = promisify(setTimeout)
-
-async function expensive1() {
-    await sleep(100)
-    return 1
-}
-
-test('calls original function', async (t) => {
-    const cached = cache(expensive1, 1000)
-    t.equal(await cached(), 1)
-    t.equal(await cached(), 1)
-})
 
 let counter = 0
 function init_expensive_count() {
@@ -39,4 +29,12 @@ test('calls original function again after timeout', async (t) => {
     t.equal(await cached(), 0)
     await sleep(1000)
     t.equal(await cached(), 1)
+})
+
+test('calls original function once for concurrent requests', async (t) => {
+    const cached = cache(expensive_count, 500)
+    init_expensive_count()
+    t.deepEqual(await Promise.all([cached(), cached(), cached()]), [0, 0, 0])
+    await sleep(1000)
+    t.deepEqual(await Promise.all([cached(), cached(), cached()]), [1, 1, 1])
 })

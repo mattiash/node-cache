@@ -10,12 +10,10 @@
     "scripts": {
         "lint": "prettier -l *.ts lib/*.ts test/*.ts",
         "build": "tsc",
-        "test": "multi-tape -p 4 build/test/test-*.js"
+        "test": "c8 -x build/test multi-tape -p 4 build/test/test-*.js"
     },
     "author": "Mattias Holmlund",
     "license": "MIT",
-    "dependencies": {
-    },
     "repository": {
         "type": "git",
         "url": "git://github.com/mattiash/node-cache.git"
@@ -25,6 +23,7 @@
     },
     "devDependencies": {
         "@types/node": "^18.7.13",
+        "c8": "^7.12.0",
         "multi-tape": "^1.7.0",
         "prettier": "^1.19.1",
         "purple-tape": "^3.9.2",
