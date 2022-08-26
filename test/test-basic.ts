@@ -14,3 +14,15 @@ test('calls original function', async (t) => {
     t.equal(await cached(), 1)
     t.equal(await cached(), 1)
 })
+
+let counter = 0
+async function expensive_count() {
+    await sleep(100)
+    return counter++
+}
+
+test('calls original function once', async (t) => {
+    const cached = cache(expensive_count, 1000)
+    t.equal(await cached(), 0)
+    t.equal(await cached(), 0)
+})
