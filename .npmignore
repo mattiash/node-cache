@@ -1,0 +1,6 @@
+test
+.gitignore
+*.ts
+!*.d.ts
+.prettierrc
+package-lock.json
