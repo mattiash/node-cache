@@ -40,7 +40,7 @@ Tip: To avoid problems where all cache entries expire at the same time, randomiz
 E.g.
 
 ```typescript
-cache(fn, () => 10000 + 5000 * (Math.random() - 0.5))
+cache(fn, () => 10000 * (Math.random() + 0.5))
 ```
 
 for a timeout between 5 and 15 seconds.
