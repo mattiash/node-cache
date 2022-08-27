@@ -11,34 +11,39 @@ even if there are multiple calls to the cached function in rapid succession
 ## Usage
 
 ```typescript
+import { cache } from '@mattiash/cache'
 
-import {cache} from '@mattiash/cache'
-
-async function expensive_operation() {
-    ...
+async function expensive() {
+    // Does something expensive and returns the result
 }
 
-const cached = cache(expensive_operation, (success) => success ? 1000 : 100)
+const cached = cache(expensive, (success) => (success ? 1000 : 100))
 
 const result = await cached()
 ```
 
-`cached` is a function that returns the same value as `expensive_operation` but through a cache.
+`cached` is now a function that returns the same value as `expensive_operation` but through a cache.
 If `expensive_operation` resolves, the value is cached for 1000ms after expensive_operation returns it.
 If `expensive_operation` rejects, the reject is only cached for 100ms.
 
 ## Timeouts
 
-```typescript
-cache(fn, timeoutMs: (success:boolean) => number)
-```
-
+The second argument to `cache` is a function called `timeoutMs`.
 The return value from timeoutMs decides how long a value is cached.
-`success` is true if fn resolved and false otherwise.
+`success` is true if fn resolved and false if it rejected.
 
 The cache timeout starts running AFTER the fn resolves or rejects. If fn does not reolve or reject,
 all calls to the cached function will be blocked forever! Make sure that the original function always
 resolves or rejects eventually.
+
+Tip: To avoid problems where all cache entries expire at the same time, randomize the timeout for each call.
+E.g.
+
+```typescript
+cache(fn, () => 10000 + 5000 * (Math.random() - 0.5))
+```
+
+for a timeout between 5 and 15 seconds.
 
 ## Cached Return Value
 
