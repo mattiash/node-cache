@@ -8,7 +8,7 @@
         "async"
     ],
     "scripts": {
-        "lint": "prettier -l *.ts lib/*.ts test/*.ts",
+        "lint": "prettier -l .",
         "build": "tsc",
         "test": "c8 -x build/test multi-tape -p 4 build/test/test-*.js"
     },
