@@ -27,7 +27,6 @@ const result = await cached()
 If `expensive_operation` resolves, the value is cached for 1000ms after expensive_operation returns it.
 If `expensive_operation` rejects, the reject is only cached for 100ms.
 
-
 ## Timeouts
 
 ```typescript
