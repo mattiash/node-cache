@@ -4,6 +4,10 @@ Wrap a function in a cache and return possibly cached values from the function.
 Guarantees that only a single request to the original function is done at a time,
 even if there are multiple calls to the cached function in rapid succession
 
+![Build master](https://github.com/mattiash/node-cache/workflows/Build%20master/badge.svg)
+![Publish to nom](https://github.com/mattiash/node-cache/workflows/Publish%20to%20npm/badge.svg)
+[![npm version](https://badge.fury.io/js/@mattiash%2Fcache.svg)](https://badge.fury.io/js/@mattiash%2Fcache)
+
 ## Usage
 
 ```typescript
